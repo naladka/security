@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Chat Example</title>
+<link rel="stylesheet" href="/static/css/style.css">
+<script type="text/javascript">
+
+window.onload = function () {
+    var conn;
+    // var msg = document.getElementById("msg");
+    var log = document.getElementById("log");
+
+    function appendLog(item) {
+        var doScroll = log.scrollTop > log.scrollHeight - log.clientHeight - 1;
+        log.appendChild(item);
+        if (doScroll) {
+            log.scrollTop = log.scrollHeight - log.clientHeight;
+        }
+    }
+
+    function updateScroll(){
+        window.scrollTo(0,document.body.scrollHeight);
+    }
+
+    //setInterval(updateScroll,500);
+
+    if (window["WebSocket"]) {
+        conn = new WebSocket("ws://" + document.location.host + "/ws");
+        conn.onclose = function (evt) {
+            var item = document.createElement("div");
+            item.innerHTML = "<b>Connection closed.</b>";
+            appendLog(item);
+        };
+        conn.onmessage = function (evt) {
+            var messages = evt.data.split('\n');
+            const now = new Date();
+            
+            for (var i = 0; i < messages.length; i++) {
+                var item = document.createElement("div");
+                var d = (now.getDate() < 10) ? "0" + now.getDate().toString() : now.getDate();
+                var m = (now.getMonth() < 10) ? "0" + (now.getMonth() + 1).toString() : now.getDate() + 1;
+                var h = (now.getHours() < 10) ? "0" + now.getHours().toString() : now.getHours();
+                var mins = (now.getMinutes() < 10) ? "0" + now.getMinutes().toString() : now.getMinutes();
+                var s = (now.getSeconds() < 10) ? "0" + now.getSeconds().toString() : now.getSeconds();
+                item.innerText = d + "-" + m + "-" + now.getFullYear() + " " + h + ":" + mins + ":" + s + "   " + "   " + JSON.parse(evt.data).Message;
+                appendLog(item);
+            }
+        };
+    } else {
+        var item = document.createElement("div");
+        item.innerHTML = "<b>Your browser does not support WebSockets.</b>";
+        appendLog(item);
+    }
+};
+</script>
+
+</head>
+<body>
+    <div class="wrapper">
+        <iframe height="100%" width="30%" src="https://google.com"></iframe>
+        <div class="info-wrapper">
+            <div class="cctv"><iframe height="100%" width="100%" src="https://google.com"></iframe></div>
+            <div class="events">
+                <div class="logs">
+                    <div id="log"></div>
+                </div>
+                <div class="btns">
+                    <!--<a href="/members" target="_blank">Click</a>-->
+                    <div class="alarms">
+                        <div class="alarm"></div>
+                        <div class="alarm"></div>
+                        <div class="alarm"></div>
+                    </div>
+                    <div class="member">
+                        <div class="photo"></div>
+                        <div class="name"></div>
+                        <div class="counter">0</div>
+                        <div class="edit"></div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>

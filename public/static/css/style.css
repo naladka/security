@@ -1,0 +1,63 @@
+html,body {
+	margin:0;
+	padding:0;
+	height:100%;
+	width:100%;
+}
+
+.wrapper {
+	width: 99vw;
+	height: 97vh;
+	display: flex;
+	flex-direction: row;
+	border: 1px solid black;
+}
+
+.info-wrapper {
+	width: 70%;
+	
+}
+
+.cctv {
+	height: 49vh;
+}
+
+.events {
+	display: flex;
+	flex-direction: row;
+	height: 47vh;
+}
+
+.logs {
+	margin: 1vh;
+	width: 60%;
+	height:100%;
+	
+}
+
+.btns {
+
+	width: 40%;
+	height:100%;
+	border: 1px solid black;
+	display: flex;
+	flex-direction: row;
+}
+
+.alarms {
+	display: flex;
+	flex-direction: column;
+	width:50%;
+}
+
+.alarm {
+	display: flex;
+	width: 100%;
+	height: 33%;
+	border: 1px solid black;
+}
+
+.member{
+	display: flex;
+	width:50%;
+}
