@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Chat Example</title>
+<title>Секурити</title>
 <link rel="stylesheet" href="/static/css/style.css">
 <script type="text/javascript">
 
@@ -18,11 +18,21 @@ window.onload = function () {
         }
     }
 
+    var logs = document.getElementById("logs")
+    var mouseOnLogs = false
+    logs.addEventListener("mouseenter", function( event ) { mouseOnLogs = true  });
+    logs.addEventListener("mouseleave", function( event ) { mouseOnLogs = false });
+
+
+
+
     function updateScroll(){
-        window.scrollTo(0,document.body.scrollHeight);
+        if (!mouseOnLogs){
+            logs.scrollTo(0,logs.scrollHeight);
+        }
     }
 
-    //setInterval(updateScroll,500);
+    setInterval(updateScroll,500);
 
     if (window["WebSocket"]) {
         conn = new WebSocket("ws://" + document.location.host + "/ws");
@@ -35,7 +45,9 @@ window.onload = function () {
             var messages = evt.data.split('\n');
             const now = new Date();
             
-            for (var i = 0; i < messages.length; i++) {
+            //for (var i = 0; i < messages.length; i++) {
+                //console.log(i, messages.length, messages)
+                //var photo = 
                 var item = document.createElement("div");
                 var d = (now.getDate() < 10) ? "0" + now.getDate().toString() : now.getDate();
                 var m = (now.getMonth() < 10) ? "0" + (now.getMonth() + 1).toString() : now.getDate() + 1;
@@ -43,8 +55,16 @@ window.onload = function () {
                 var mins = (now.getMinutes() < 10) ? "0" + now.getMinutes().toString() : now.getMinutes();
                 var s = (now.getSeconds() < 10) ? "0" + now.getSeconds().toString() : now.getSeconds();
                 item.innerText = d + "-" + m + "-" + now.getFullYear() + " " + h + ":" + mins + ":" + s + "   " + "   " + JSON.parse(evt.data).Message;
-                appendLog(item);
-            }
+                if (JSON.parse(evt.data).Message.length > 0) {
+                    appendLog(item);
+                }
+                console.log(JSON.parse(evt.data))
+                if (JSON.parse(evt.data).Image.length > 0){
+                    //console.log(JSON.parse(evt.data))
+                        document.querySelector(".photo > img").setAttribute("src", "/static/images/" + JSON.parse(evt.data).Image)
+                }
+                
+            //}
         };
     } else {
         var item = document.createElement("div");
@@ -61,7 +81,7 @@ window.onload = function () {
         <div class="info-wrapper">
             <div class="cctv"><iframe height="100%" width="100%" src="https://google.com"></iframe></div>
             <div class="events">
-                <div class="logs">
+                <div class="logs" id="logs" >
                     <div id="log"></div>
                 </div>
                 <div class="btns">
@@ -72,7 +92,7 @@ window.onload = function () {
                         <div class="alarm"></div>
                     </div>
                     <div class="member">
-                        <div class="photo"></div>
+                        <div class="photo"><img src="/static/images/pashtet.jpg"></img></div>
                         <div class="name"></div>
                         <div class="counter">0</div>
                         <div class="edit"></div>

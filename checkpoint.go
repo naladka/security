@@ -59,6 +59,18 @@ func (a Allowed) GetName(id string) string {
 	return name
 }
 
+func (a Allowed) GetImage(id string) string {
+	var image string
+	sl, _ := utils.ReadFileLines("collegues.csv")
+	for _, s := range(sl) {
+		sl := strings.Split(s,",")
+		if sl[1] == id {
+			image = sl[2]
+		}
+	}
+	return image
+}
+
 // GetMembers ...
 func GetMembers() map[string]string {
 	s, _ := utils.ReadFileLines("collegues.csv")

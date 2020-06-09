@@ -32,7 +32,7 @@ html,body {
 	margin: 1vh;
 	width: 60%;
 	height:100%;
-	
+	overflow: scroll;
 }
 
 .btns {
@@ -60,4 +60,15 @@ html,body {
 .member{
 	display: flex;
 	width:50%;
+	flex-direction: column;
+}
+
+.photo {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid red;
+    width: 100%;
+    padding-top: 5px;
+    height: auto;
+    justify-content: center;
 }

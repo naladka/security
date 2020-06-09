@@ -13,6 +13,9 @@ type Message struct {
 	Message string `json:"Message"`
 	// Device local addresses list
 	DevicesLocAddr []string `json:"devices"`
+	// Image
+	Image string `json:"Image"`
+	
 }
 
 func serveHome(w http.ResponseWriter, r *http.Request) {

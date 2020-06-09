@@ -20,8 +20,12 @@ var upgrader = websocket.Upgrader{
 	WriteBufferSize: 1024,
 }
 
-func write(msg chan *Message, str string) {
-	msg <- &Message{Message: str}
+func write(msg chan *Message, str ...string) {
+	if len(str) == 1 {
+		msg <- &Message{Message: str[0]}	
+	} else if len(str) == 2 {
+		msg <- &Message{Message: str[0], Image: str[1]}	
+	}
 }
 
 
@@ -54,10 +58,10 @@ func main() {
 			}
 
 			aMsg := string(buf[:n])
-			fmt.Println(prevAMsg + "<===>" + aMsg)
-			fmt.Println(prevAMsg == aMsg)
+			//fmt.Println(prevAMsg + "<===>" + aMsg)
+			//fmt.Println(prevAMsg == aMsg)
 			if prevAMsg == aMsg {
-				fmt.Println("AAAAAAAAAAAAAAAAAAAAAAAAAAA")
+				//fmt.Println("AAAAAAAAAAAAAAAAAAAAAAAAAAA")
 				continue
 			}
 			prevAMsg = aMsg
@@ -66,23 +70,30 @@ func main() {
 			fmt.Printf("%s\n", aMsg)
 			switch btns {
 			case "1":
+				fmt.Println("1-ОТКРЫТА ДВЕРЬ")
 				go write(msg, "ОТКРЫТА ДВЕРЬ!")
 				_, err := s.Write([]byte("0"))
 				if err != nil {
 					log.Fatal(err)
 				}
 			case "2":
+				fmt.Println("2-ЗВОНОК")
 				go write(msg, "ЗВОНОК")
 			case "3":
+				fmt.Println("3-ЗВОНОК И ДВЕРЬ ОТКРЫТА")
 				go write(msg, "ЗВОНОК И ДВЕРЬ ОТКРЫТА")
 			case "4":
+				fmt.Println("4-ПОСТОРОННИЕ")
 				go write(msg, "ПОСТОРОННИЕ!")
 				
 			case "5":
+				fmt.Println("5-КОД И ДВЕРЬ")
 				go write(msg, "КОД И ДВЕРЬ")
 			case "6":
+				fmt.Println("6-ЗВОНОК И КОД")
 				go write(msg, "ЗВОНОК И КОД")
 			case "7":
+				fmt.Println("7-Together")
 				fmt.Println("Together")
 			}
 
@@ -92,7 +103,7 @@ func main() {
 			if gays.IDExist(idFromArd) {
 				n, err := s.Write([]byte("1"))
 				fmt.Println("wroten %d bytes", n)
-				go write(msg, "Пришел " +  gays.GetName(idFromArd))
+				go write(msg, "Пришел " +  gays.GetName(idFromArd), gays.GetImage(idFromArd))
 				if err != nil {
 					log.Fatal(err)
 				}
