@@ -71,6 +71,18 @@ func (a Allowed) GetImage(id string) string {
 	return image
 }
 
+func (a Allowed) GetPosition(id string) string {
+	var position string
+	sl, _ := utils.ReadFileLines("collegues.csv")
+	for _, s := range(sl) {
+		sl := strings.Split(s,",")
+		if sl[1] == id {
+			position = sl[3]
+		}
+	}
+	return position
+}
+
 // GetMembers ...
 func GetMembers() map[string]string {
 	s, _ := utils.ReadFileLines("collegues.csv")

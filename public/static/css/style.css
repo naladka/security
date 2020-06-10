@@ -61,14 +61,20 @@ html,body {
 	display: flex;
 	width:50%;
 	flex-direction: column;
+	
+	align-items: center;
 }
 
 .photo {
     display: flex;
     flex-direction: row;
-    border: 1px solid red;
+    
     width: 100%;
     padding-top: 5px;
     height: auto;
     justify-content: center;
+}
+
+#door, #ring, #lamp {
+	width: 100%;
 }

@@ -44,7 +44,9 @@ window.onload = function () {
         conn.onmessage = function (evt) {
             var messages = evt.data.split('\n');
             const now = new Date();
-            
+            if (JSON.parse(evt.data).Message == "ЗВОНОК") {
+                    document.getElementById("ring").style.border = "5px solid red";
+            }
             //for (var i = 0; i < messages.length; i++) {
                 //console.log(i, messages.length, messages)
                 //var photo = 
@@ -55,6 +57,7 @@ window.onload = function () {
                 var mins = (now.getMinutes() < 10) ? "0" + now.getMinutes().toString() : now.getMinutes();
                 var s = (now.getSeconds() < 10) ? "0" + now.getSeconds().toString() : now.getSeconds();
                 item.innerText = d + "-" + m + "-" + now.getFullYear() + " " + h + ":" + mins + ":" + s + "   " + "   " + JSON.parse(evt.data).Message;
+                
                 if (JSON.parse(evt.data).Message.length > 0) {
                     appendLog(item);
                 }
@@ -62,6 +65,11 @@ window.onload = function () {
                 if (JSON.parse(evt.data).Image.length > 0){
                     //console.log(JSON.parse(evt.data))
                         document.querySelector(".photo > img").setAttribute("src", "/static/images/" + JSON.parse(evt.data).Image)
+                }
+                 if (JSON.parse(evt.data).Position.length > 0){
+                    //console.log(JSON.parse(evt.data))
+                        document.querySelector(".position").innerText = JSON.parse(evt.data).Position
+                        document.querySelector(".name").innerText = JSON.parse(evt.data).Name
                 }
                 
             //}
@@ -87,14 +95,16 @@ window.onload = function () {
                 <div class="btns">
                     <!--<a href="/members" target="_blank">Click</a>-->
                     <div class="alarms">
-                        <div class="alarm"></div>
-                        <div class="alarm"></div>
-                        <div class="alarm"></div>
+                        <div class="alarm"><img id="ring" src="/static/images/ring.jpg"></img></div>
+                        <div class="alarm"><img id="door" src="/static/images/door.jpg"></img></div>
+                        <div class="alarm"><img id="lamp" src="/static/images/lamp.jpg"></img></div>
                     </div>
                     <div class="member">
+                        <div class="counter">Количество людей: 0</div>
                         <div class="photo"><img src="/static/images/pashtet.jpg"></img></div>
                         <div class="name"></div>
-                        <div class="counter">0</div>
+                        <div class="position"></div></div>
+                        
                         <div class="edit"></div>
                     </div>
                 </div>

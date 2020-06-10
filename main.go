@@ -23,8 +23,8 @@ var upgrader = websocket.Upgrader{
 func write(msg chan *Message, str ...string) {
 	if len(str) == 1 {
 		msg <- &Message{Message: str[0]}	
-	} else if len(str) == 2 {
-		msg <- &Message{Message: str[0], Image: str[1]}	
+	} else if len(str) == 4 {
+		msg <- &Message{Message: str[0], Image: str[1], Position: str[2], Name: str[3]}	
 	}
 }
 
@@ -95,6 +95,7 @@ func main() {
 			case "7":
 				fmt.Println("7-Together")
 				fmt.Println("Together")
+			
 			}
 
 			idFromArd := strings.Join(lastCardID, "")
@@ -103,7 +104,7 @@ func main() {
 			if gays.IDExist(idFromArd) {
 				n, err := s.Write([]byte("1"))
 				fmt.Println("wroten %d bytes", n)
-				go write(msg, "Пришел " +  gays.GetName(idFromArd), gays.GetImage(idFromArd))
+				go write(msg, "Пришел " +  gays.GetName(idFromArd), gays.GetImage(idFromArd), gays.GetPosition(idFromArd), gays.GetName(idFromArd))
 				if err != nil {
 					log.Fatal(err)
 				}
