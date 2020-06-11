@@ -78,3 +78,19 @@ html,body {
 #door, #ring, #lamp {
 	width: 100%;
 }
+
+.door-open {
+	
+	animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    border: 5px solid green;
+    width: 95%;
+  }
+  100% {
+    border: none;
+    width: 100%;
+  }
+}

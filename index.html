@@ -4,8 +4,20 @@
 <title>Секурити</title>
 <link rel="stylesheet" href="/static/css/style.css">
 <script type="text/javascript">
-
+    function stopAlarm(){
+        console.log("SDFGHJKLKJHGHJK")
+        document.getElementById("lamp").style.border = "none";
+        document.getElementById("audio_alarm").load()
+        //document.getElementById("door").style.border = "5px solid green";
+    }
+    
+     function stopDoor(){
+        document.getElementById("door").classList.remove("door-open");
+        //document.getElementById("audio_alarm").load()
+        //document.getElementById("door").style.border = "5px solid green";
+    }
 window.onload = function () {
+
     var conn;
     // var msg = document.getElementById("msg");
     var log = document.getElementById("log");
@@ -46,6 +58,22 @@ window.onload = function () {
             const now = new Date();
             if (JSON.parse(evt.data).Message == "ЗВОНОК") {
                     document.getElementById("ring").style.border = "5px solid red";
+                    document.getElementById("audio_ring").play()
+            }
+            if (JSON.parse(evt.data).Message == "ОТКРЫТА ДВЕРЬ!") {
+                    document.getElementById("ring").style.border = "none";
+                    document.getElementById("audio_ring").load()
+                    document.getElementById("door").classList.add("door-open");
+            }
+            if (JSON.parse(evt.data).Message == "ПОСТОРОННИЕ!") {
+                    document.getElementById("ring").style.border = "none";
+                    document.getElementById("audio_alarm").play()
+                    document.getElementById("lamp").style.border = "5px solid red";
+            }
+            if (JSON.parse(evt.data).Message == "ЗАКРЫТА ДВЕРЬ!") {
+                    document.getElementById("door").style.border = "none";
+                    //document.getElementById("audio_alarm").play()
+                    //document.getElementById("lamp").style.border = "5px solid red";
             }
             //for (var i = 0; i < messages.length; i++) {
                 //console.log(i, messages.length, messages)
@@ -95,9 +123,20 @@ window.onload = function () {
                 <div class="btns">
                     <!--<a href="/members" target="_blank">Click</a>-->
                     <div class="alarms">
-                        <div class="alarm"><img id="ring" src="/static/images/ring.jpg"></img></div>
-                        <div class="alarm"><img id="door" src="/static/images/door.jpg"></img></div>
-                        <div class="alarm"><img id="lamp" src="/static/images/lamp.jpg"></img></div>
+                        <div class="alarm">
+                            <img id="ring" src="/static/images/ring.jpg"></img>
+                            <audio id="audio_ring">
+                                    <source src="/static/music/ring.mp3" type="audio/mp3">
+                            
+                            </audio>
+                            </div>
+                        <div onclick="stopDoor()"  class="alarm"><img id="door" src="/static/images/door.jpg"></img></div>
+                        <div onclick="stopAlarm()" class="alarm">
+                            <img id="lamp" src="/static/images/lamp.jpg"></img>
+                            <audio id="audio_alarm">
+                                    <source src="/static/music/audio_alarm.mp3" type="audio/mp3">
+                            </audio>
+                        </div>
                     </div>
                     <div class="member">
                         <div class="counter">Количество людей: 0</div>
