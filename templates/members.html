@@ -1,3 +1,6 @@
+
+{{ define "members"}}
+{{ .Members }}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,9 +9,10 @@
 	<body>
 		<table style="width:100%">
 		  <tr>
-			<th>Firstname</th>
-			<th>Lastname</th>
-			<th>Age</th>
+			<th>ID</th>
+			<th>Имя</th>
+			<th>Должность</th>
+			<th>Фото</th>
 		  </tr>
 		  <tr>
 			<td>Jill</td>
@@ -24,3 +28,4 @@
 	</body>
 </html>
 
+{{ end }}

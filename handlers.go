@@ -1,9 +1,11 @@
 package main
 
 import (
-	//"fmt"
+	"fmt"
+	//"io/ioutil"
 	"log"
 	"net/http"
+	"html/template"
 	// "os/exec"
 )
 
@@ -18,6 +20,11 @@ type Message struct {
 	Position string `json:"Position"`
 	Name string `json:"Name"`	
 }
+
+var (
+	templatesDir = "templates/"
+	t = template.Must(template.ParseGlob(templatesDir + "members.html"))
+)
 
 func serveHome(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
@@ -43,7 +50,13 @@ func members(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
-	http.ServeFile(w, r, "members.html")
+	m := GetAllowed()
+	fmt.Println(m)
+	if err := t.ExecuteTemplate(w, "members", m); err != nil {
+			log.Println(err.Error())
+			http.Error(w, http.StatusText(500), 500)
+	}
+	//http.ServeFile(w, r, "members.html")
 }
 
 
