@@ -7,19 +7,22 @@
     function stopAlarm(){
         console.log("SDFGHJKLKJHGHJK")
         document.getElementById("lamp").style.border = "none";
-        document.getElementById("audio_alarm").load()
-        //document.getElementById("door").style.border = "5px solid green";
+        document.getElementById("lamp").style.outline = "none";
+        document.getElementById("audio_alarm").load();
+        document.getElementById("door").classList.remove("alarm-event");
+        document.getElementById("lamp").classList.remove("alarm-event");
     }
     
      function stopDoor(){
-        document.getElementById("door").classList.remove("door-open");
-        //document.getElementById("audio_alarm").load()
-        //document.getElementById("door").style.border = "5px solid green";
+         document.getElementById("audio_door").load();
+        document.getElementById("door").classList.remove("alarm-event");
+        document.getElementById("ring").style.border = "none";
+        document.getElementById("door").style.border = "none";
+        document.getElementById("door").style.outline = "none";
     }
 window.onload = function () {
 
     var conn;
-    // var msg = document.getElementById("msg");
     var log = document.getElementById("log");
 
     function appendLog(item) {
@@ -58,26 +61,31 @@ window.onload = function () {
             const now = new Date();
             if (JSON.parse(evt.data).Message == "ЗВОНОК") {
                     document.getElementById("ring").style.border = "5px solid red";
+                    document.getElementById("ring").classList.add("alarm-event");
                     document.getElementById("audio_ring").play()
             }
             if (JSON.parse(evt.data).Message == "ОТКРЫТА ДВЕРЬ!") {
+                    document.getElementById("ring").classList.remove("alarm-event");
                     document.getElementById("ring").style.border = "none";
+                    
+                    document.getElementById("audio_door").play()
+                    document.getElementById("door").style.outline = "5px solid green";
+                    document.getElementById("door").style.outlineOffset = "-5px";
+                    document.getElementById("door").classList.add("alarm-event");
                     document.getElementById("audio_ring").load()
-                    document.getElementById("door").classList.add("door-open");
+                    
             }
             if (JSON.parse(evt.data).Message == "ПОСТОРОННИЕ!") {
                     document.getElementById("ring").style.border = "none";
-                    document.getElementById("audio_alarm").play()
-                    document.getElementById("lamp").style.border = "5px solid red";
+                    document.getElementById("audio_alarm").play();
+                    document.getElementById("lamp").classList.add("alarm-event");
+                    document.getElementById("lamp").style.outline = "5px solid red";
+                    document.getElementById("lamp").style.outlineOffset = "-5px";
             }
             if (JSON.parse(evt.data).Message == "ЗАКРЫТА ДВЕРЬ!") {
                     document.getElementById("door").style.border = "none";
-                    //document.getElementById("audio_alarm").play()
-                    //document.getElementById("lamp").style.border = "5px solid red";
             }
-            //for (var i = 0; i < messages.length; i++) {
-                //console.log(i, messages.length, messages)
-                //var photo = 
+
                 var item = document.createElement("div");
                 var d = (now.getDate() < 10) ? "0" + now.getDate().toString() : now.getDate();
                 var m = (now.getMonth() < 10) ? "0" + (now.getMonth() + 1).toString() : now.getDate() + 1;
@@ -91,16 +99,12 @@ window.onload = function () {
                 }
                 console.log(JSON.parse(evt.data))
                 if (JSON.parse(evt.data).Image.length > 0){
-                    //console.log(JSON.parse(evt.data))
                         document.querySelector(".photo > img").setAttribute("src", "/static/images/" + JSON.parse(evt.data).Image)
                 }
                  if (JSON.parse(evt.data).Position.length > 0){
-                    //console.log(JSON.parse(evt.data))
                         document.querySelector(".position").innerText = JSON.parse(evt.data).Position
                         document.querySelector(".name").innerText = JSON.parse(evt.data).Name
                 }
-                
-            //}
         };
     } else {
         var item = document.createElement("div");
@@ -121,16 +125,23 @@ window.onload = function () {
                     <div id="log"></div>
                 </div>
                 <div class="btns">
-                    <!--<a href="/members" target="_blank">Click</a>-->
                     <div class="alarms">
+                        
                         <div class="alarm">
                             <img id="ring" src="/static/images/ring.jpg"></img>
                             <audio id="audio_ring">
                                     <source src="/static/music/ring.mp3" type="audio/mp3">
                             
                             </audio>
-                            </div>
-                        <div onclick="stopDoor()"  class="alarm"><img id="door" src="/static/images/door.jpg"></img></div>
+                        </div>
+                            
+                        <div onclick="stopDoor()"  class="alarm">
+                            <img id="door" src="/static/images/door.jpg"></img>
+                            <audio id="audio_door">
+                                    <source src="/static/music/door.mp3" type="audio/mp3">
+                            </audio>
+                        </div>
+                        
                         <div onclick="stopAlarm()" class="alarm">
                             <img id="lamp" src="/static/images/lamp.jpg"></img>
                             <audio id="audio_alarm">

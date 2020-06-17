@@ -1,7 +1,7 @@
 package main
 
 import (
-	// "fmt"
+	//"fmt"
 	"log"
 	"net/http"
 	// "os/exec"
@@ -30,6 +30,7 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	http.ServeFile(w, r, "index.html")
+
 }
 
 func members(w http.ResponseWriter, r *http.Request) {

@@ -131,6 +131,7 @@ func main() {
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
+		fmt.Println("Done!")
 }
 
 
