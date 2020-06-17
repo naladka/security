@@ -69,8 +69,6 @@ func main() {
 			lastCardID := strings.Split(aMsg, "")[1:]
 			fmt.Printf("%s\n", aMsg)
 			switch btns {
-			case "0":
-				go write(msg, "ЗАКРЫТА ДВЕРЬ!")
 			case "1":
 				fmt.Println("1-ОТКРЫТА ДВЕРЬ")
 				go write(msg, "ОТКРЫТА ДВЕРЬ!")
@@ -97,6 +95,9 @@ func main() {
 			case "7":
 				fmt.Println("7-Together")
 				fmt.Println("Together")
+			case "8":
+				fmt.Println("8-ЗАКРЫТА ДВЕРЬ")
+				go write(msg, "ЗАКРЫТА ДВЕРЬ!")
 			
 			}
 

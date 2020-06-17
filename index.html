@@ -83,7 +83,8 @@ window.onload = function () {
                     document.getElementById("lamp").style.outlineOffset = "-5px";
             }
             if (JSON.parse(evt.data).Message == "ЗАКРЫТА ДВЕРЬ!") {
-                    document.getElementById("door").style.border = "none";
+                    //document.getElementById("door").style.border = "none";
+                    stopDoor();
             }
 
                 var item = document.createElement("div");
