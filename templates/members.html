@@ -1,6 +1,11 @@
 
-{{ define "members"}}
-{{ .Members }}
+{{ define "allowed"}}
+{{range .Members}}
+{{.Id}}
+{{.Name}}
+{{.Status}}
+{{.Image}}
+{{end}}
 <!DOCTYPE html>
 <html lang="en">
 <head>

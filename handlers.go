@@ -50,9 +50,14 @@ func members(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
-	m := GetAllowed()
-	fmt.Println(m)
-	if err := t.ExecuteTemplate(w, "members", m); err != nil {
+	a := GetAllowed()
+//	mem := NewMember("111", "222", "333", "444")
+	//m := []*Member{}
+	//m = append(m, mem)
+	//a := Allowed{Members: m}
+	
+	fmt.Println("In members", a)
+	if err := t.ExecuteTemplate(w, "allowed", a); err != nil {
 			log.Println(err.Error())
 			http.Error(w, http.StatusText(500), 500)
 	}

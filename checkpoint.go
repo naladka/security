@@ -38,12 +38,20 @@ func (a Allowed) AppendMember(id, name, status, image string) {
 
 // GetAllowed
 func GetAllowed () Allowed {
-	var a Allowed
+	//	mem := NewMember("111", "222", "333", "444")
+	//m := []*Member{}
+	//m = append(m, mem)
+	//a := Allowed{Members: m}
+	//var a Allowed
+	m := []*Member{}
 	sl, _ := utils.ReadFileLines("collegues.csv")
 	for _, s := range(sl) {
 		sl := strings.Split(s,",")
-		a.AppendMember(sl[0], sl[1], sl[3], sl[2])
+		mem := NewMember(sl[0], sl[1], sl[3], sl[2])
+		//a.AppendMember(sl[0], sl[1], sl[3], sl[2])
+		m = append(m, mem)
 	}
+	a := Allowed{Members: m}
 	fmt.Println(len(a.Members))
 	return a	
 }
@@ -93,15 +101,15 @@ func GetMembers() map[string]string {
 
 // Member - ...
 type Member struct {
-	id   string
-	name string
-	status string
-	image string
+	Id   string
+	Name string
+	Status string
+	Image string
 }
 
 
 func NewMember(id, name, status, image string) *Member {
-	return &Member{id: id, name: name, status: status, image: image}
+	return &Member{Id: id, Name: name, Status: status, Image: image}
 }
 
 
