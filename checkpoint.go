@@ -2,7 +2,7 @@ package main
 
 import (
 	"strings"
-	"fmt"
+	//"fmt"
 
 	"github.com/ivan-bogach/utils"
 )
@@ -31,28 +31,21 @@ func GetIDs() []string {
 	return a
 }
 
-func (a Allowed) AppendMember(id, name, status, image string) {
-	m := NewMember(id, name, status, image)
-	a.Members = append(a.Members, m)
-}
+//func (a Allowed) AppendMember(id, name, status, image string) {
+//	m := NewMember(id, name, status, image)
+//	a.Members = append(a.Members, m)
+//}
 
 // GetAllowed
 func GetAllowed () Allowed {
-	//	mem := NewMember("111", "222", "333", "444")
-	//m := []*Member{}
-	//m = append(m, mem)
-	//a := Allowed{Members: m}
-	//var a Allowed
 	m := []*Member{}
 	sl, _ := utils.ReadFileLines("collegues.csv")
 	for _, s := range(sl) {
 		sl := strings.Split(s,",")
-		mem := NewMember(sl[0], sl[1], sl[3], sl[2])
-		//a.AppendMember(sl[0], sl[1], sl[3], sl[2])
+		mem := NewMember(sl[0], sl[1], sl[3], "/static/images/" + sl[2])
 		m = append(m, mem)
 	}
 	a := Allowed{Members: m}
-	fmt.Println(len(a.Members))
 	return a	
 }
 
@@ -106,7 +99,6 @@ type Member struct {
 	Status string
 	Image string
 }
-
 
 func NewMember(id, name, status, image string) *Member {
 	return &Member{Id: id, Name: name, Status: status, Image: image}

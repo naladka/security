@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	//"fmt"
 	//"io/ioutil"
 	"log"
 	"net/http"
@@ -51,17 +51,11 @@ func members(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	a := GetAllowed()
-//	mem := NewMember("111", "222", "333", "444")
-	//m := []*Member{}
-	//m = append(m, mem)
-	//a := Allowed{Members: m}
 	
-	fmt.Println("In members", a)
 	if err := t.ExecuteTemplate(w, "allowed", a); err != nil {
 			log.Println(err.Error())
 			http.Error(w, http.StatusText(500), 500)
 	}
-	//http.ServeFile(w, r, "members.html")
 }
 
 

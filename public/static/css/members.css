@@ -1,0 +1,21 @@
+table {
+	width:80%;
+}
+
+table, tr, th, td {
+	border: 1px solid black;
+	border-collapse: collapse;
+	padding: 10px;
+	text-align: center;
+} 
+
+.wrapper{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.image{
+	width: 10%;
+}
