@@ -19,3 +19,13 @@ table, tr, th, td {
 .image{
 	width: 10%;
 }
+
+.popup_form {
+  display: none;
+  position: fixed;
+  bottom: 45%;
+  right: 45%;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
+

@@ -1,7 +1,10 @@
 package main
 
 import (
-	//"fmt"
+	"fmt"
+	"os"
+	"path/filepath"
+	"io"
 	//"io/ioutil"
 	"log"
 	"net/http"
@@ -46,9 +49,12 @@ func members(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if r.Method != "GET" {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		return
+	if r.Method == "POST" {
+		if err := r.ParseForm(); err != nil {
+			fmt.Fprintf(w, "ParseForm() err: %v", err)
+		}
+		fmt.Println(r.FormValue("file"))
+		AddMember(r.FormValue("name"),r.FormValue("id"), r.FormValue("photo"), r.FormValue("status"))
 	}
 	a := GetAllowed()
 	
@@ -78,3 +84,47 @@ func serveW(w http.ResponseWriter, r *http.Request, msg chan *Message) {
 	}
 }
 
+
+func upload(w http.ResponseWriter, r *http.Request) {
+    if r.Method != "POST" {
+        http.Error(w, "", http.StatusBadRequest)
+        return
+    }
+
+    if err := r.ParseMultipartForm(1024); err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        return
+    }
+    
+    uploadedFile, handler, err := r.FormFile("file")
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer uploadedFile.Close()
+
+	dir, err := os.Getwd()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	filename := handler.Filename
+
+	fileLocation := filepath.Join(dir, "public/static/images", filename)
+	targetFile, err := os.OpenFile(fileLocation, os.O_WRONLY|os.O_CREATE, 0666)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer targetFile.Close()
+
+	if _, err := io.Copy(targetFile, uploadedFile); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Write([]byte("done"))
+
+}

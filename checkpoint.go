@@ -3,6 +3,7 @@ package main
 import (
 	"strings"
 	//"fmt"
+	"os"
 
 	"github.com/ivan-bogach/utils"
 )
@@ -42,11 +43,29 @@ func GetAllowed () Allowed {
 	sl, _ := utils.ReadFileLines("collegues.csv")
 	for _, s := range(sl) {
 		sl := strings.Split(s,",")
+		if len(sl) < 4 {
+			continue
+		}
 		mem := NewMember(sl[0], sl[1], sl[3], "/static/images/" + sl[2])
 		m = append(m, mem)
 	}
 	a := Allowed{Members: m}
 	return a	
+}
+
+func AddMember(id, name, status, image string){
+	text := id + "," + name + "," + status + "," + image + "\n"
+	f, err := os.OpenFile("collegues.csv", os.O_APPEND|os.O_WRONLY, 0600)
+	
+	if err != nil {
+		panic(err)
+	}
+
+	defer f.Close()
+
+	if _, err = f.WriteString(text); err != nil {
+		panic(err)
+	}
 }
 
 func (a Allowed) GetName(id string) string {

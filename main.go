@@ -123,6 +123,7 @@ func main() {
 				IndexHTML: true,
 		},
 	)))
+	http.HandleFunc("/upload", upload)
 	http.HandleFunc("/members", members)
 	http.HandleFunc("/", serveHome)
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
