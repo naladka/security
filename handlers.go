@@ -53,8 +53,12 @@ func members(w http.ResponseWriter, r *http.Request) {
 		if err := r.ParseForm(); err != nil {
 			fmt.Fprintf(w, "ParseForm() err: %v", err)
 		}
-		fmt.Println(r.FormValue("file"))
-		AddMember(r.FormValue("name"),r.FormValue("id"), r.FormValue("photo"), r.FormValue("status"))
+		if r.FormValue("form") == "add" {
+			AddMember(r.FormValue("name"),r.FormValue("id"), r.FormValue("photo"), r.FormValue("status"))
+		} else if r.FormValue("form") == "change" {
+			fmt.Println("DFGHJKL:")
+			ChangeMember(r.FormValue("name"),r.FormValue("id"), r.FormValue("photo"), r.FormValue("status"))
+		}
 	}
 	a := GetAllowed()
 	

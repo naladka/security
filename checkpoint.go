@@ -68,6 +68,43 @@ func AddMember(id, name, status, image string){
 	}
 }
 
+
+func ChangeMember(id, name, status, image string){
+	sl, _ := utils.ReadFileLines("collegues.csv")
+	var slice []string
+	for _, s := range(sl) {
+		if len(s) < 4 {
+			continue
+		}
+
+		if sl[1] == id {
+			s = id + "," + name + "," + status + "," + image + "\n"
+		}
+		slice = append(slice, s + "\n")
+	}
+
+	err := os.Remove("collegues.csv")
+	if err != nil {
+		panic(err)
+	}
+
+    file, err := os.Create("collegues.csv")
+	if err != nil {
+		panic(err)
+	}
+    defer file.Close()
+
+
+
+	for _, s := range(slice){
+		f, err := os.OpenFile("collegues.csv", os.O_APPEND|os.O_WRONLY, 0600)
+		if _, err = f.WriteString(s); err != nil {
+			panic(err)
+		}
+	}
+	
+}
+
 func (a Allowed) GetName(id string) string {
 	var name string
 	sl, _ := utils.ReadFileLines("collegues.csv")

@@ -6,9 +6,23 @@
 <title>Members</title>
 <link rel="stylesheet" href="/static/css/members.css">
 <script type="text/javascript">
-	function changePhoto(){
-			ocument.getElementById("myForm").style.display = "block";
+	function change(e){
+		
+		var p = e.parentNode
+		var obj = "form=change&id=" + p.getElementsByClassName("id")[0].innerText + "&name=" + p.getElementsByClassName("name")[0].innerText + "&photo=" + document.getElementsByClassName("image")[0].getElementsByTagName("img")[0].src.split("/").slice(-1)[0]
+ + "&status=" + p.getElementsByClassName("status")[0].innerText;
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", '/members', true);
+		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		xhr.onreadystatechange = function() { // Call a function when the state changes.
+			if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+
+			}
+		}
+		xhr.send(obj);
+		console.log(p.getElementsByClassName("status")[0]);
 	}
+	
 </script>
 </head>
 	<body>
@@ -22,16 +36,17 @@
 			  </tr>
 			{{range .Members}}
 			  <tr>
-				<td>{{.Id}}</td>
-				<td>{{.Name}}</td>
-				<td>{{.Status}}</td>
-				<td onclick="changePhoto()" class="image" onclick=><img src={{.Image}}></td>
+				<td class="id" onclick="change(this)">{{.Id}}</td>
+				<td class="name" onclick="change(this)">{{.Name}}</td>
+				<td class="status" onclick="change(this)">{{.Status}}</td>
+				<td class="image" onclick="change(this)" class="image" onclick=><img src={{.Image}}></td>
 			  </tr>
 			{{end}}		  
 			</table>
 		</div>
 
 		<form action="/members" method="post">
+		  <input type="hidden" name="form" value="add" />
 		  <label for="name">Имя:</label><br>
 		  <input type="text" name="name" value="John"><br>
 		  <label for="id">ID:</label><br>
@@ -44,14 +59,14 @@
 
         </form>		
 		
-		<form method="post" action="/upload" enctype="multipart/form-data">
+<!--		<form method="post" action="/upload" enctype="multipart/form-data">
             <label>The file :</label>
             <input type="file" name="file" required /><br />
             <label>Rename to :</label>
             <input type="text" name="alias" /><br />
             <input type="submit" value="Submit">
         </form>
- 
+-->  
 
 
 	</body>
